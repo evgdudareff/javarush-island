@@ -6,10 +6,10 @@ import com.dudarev.island.classes.predators.Bear;
 import com.dudarev.island.classes.predators.Wolf;
 import com.dudarev.island.classes.utils.ChanceToBeEaten;
 
-public class ChanceToBeEatenTests {
-    public static final String ANSI_RED = "\u001B[31m";
-    public static final String ANSI_RESET = "\u001B[0m";
+import static com.dudarev.island.classes.tests.TestsCostants.ANSI_RED;
+import static com.dudarev.island.classes.tests.TestsCostants.ANSI_RESET;
 
+public class ChanceToBeEatenTests {
     public static void checkThatWolfEatsHorseAtLeastOneTime() throws Exception {
         System.out.println("checkThatWolfEatsHorseAtLeastOneTime starts 1000 iterations");
 
