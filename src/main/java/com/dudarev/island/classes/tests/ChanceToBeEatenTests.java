@@ -10,7 +10,7 @@ import static com.dudarev.island.classes.tests.TestsCostants.ANSI_RED;
 import static com.dudarev.island.classes.tests.TestsCostants.ANSI_RESET;
 
 public class ChanceToBeEatenTests {
-    public static void checkThatWolfEatsHorseAtLeastOneTime() throws Exception {
+    public  void checkThatWolfEatsHorseAtLeastOneTime() throws Exception {
         System.out.println("checkThatWolfEatsHorseAtLeastOneTime starts 1000 iterations");
 
         int success = 0;
@@ -36,7 +36,7 @@ public class ChanceToBeEatenTests {
         System.out.println("-----------------------------------------");
     }
 
-    public static void checkThatWolfEatsMouseAtLeastOneTime() throws Exception {
+    public void checkThatWolfEatsMouseAtLeastOneTime() throws Exception {
         System.out.println("checkThatWolfEatsMouseAtLeastOneTime starts 1000 iterations");
 
         int success = 0;
@@ -62,7 +62,7 @@ public class ChanceToBeEatenTests {
         System.out.println("-----------------------------------------");
     }
 
-    public static void checkThatWolfNeverEatsHimSelf() throws Exception {
+    public void checkThatWolfNeverEatsHimSelf() throws Exception {
         System.out.println("checkThatWolfNeverEatsHimSelf starts 1000 iterations");
 
         int success = 0;
@@ -87,7 +87,7 @@ public class ChanceToBeEatenTests {
         System.out.println("-----------------------------------------");
     }
 
-    public static void checkThatWolfNeverEatsBear() throws Exception {
+    public void checkThatWolfNeverEatsBear() throws Exception {
         System.out.println("checkThatWolfNeverEatsBear starts 1000 iterations");
 
         int success = 0;
@@ -113,7 +113,7 @@ public class ChanceToBeEatenTests {
         System.out.println("-----------------------------------------");
     }
 
-    public static void runTests() {
+    public void runTests() {
         try {
             checkThatWolfEatsMouseAtLeastOneTime();
             checkThatWolfEatsHorseAtLeastOneTime();

@@ -1,31 +1,33 @@
 package com.dudarev.island.classes.utils;
 
 import com.dudarev.island.classes.base.Animal;
+import com.dudarev.island.classes.board.Board;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
 public class Movement {
-    private final static int leftBoundX = 0;
-    private final static int rightBoundX = 2;
-    private final static int upBoundY = 0;
-    private final static int downBoundY = 2;
+    Board board;
 
-    public static int getLeftBoundX() {
-        return leftBoundX;
+    public Movement(Board simulationBoard){
+        board = simulationBoard;
     }
 
-    public static int getRightBoundX() {
-        return rightBoundX;
+    public int getLeftBoundX() {
+        return board.getLeftBoundX();
     }
 
-    public static int getUpBoundY() {
-        return upBoundY;
+    public int getRightBoundX() {
+        return board.getRightBoundX();
     }
 
-    public static int getDownBoundY() {
-        return downBoundY;
+    public int getUpBoundY() {
+        return board.getUpBoundY();
+    }
+
+    public int getDownBoundY() {
+        return board.getDownBoundY();
     }
 
 
@@ -33,7 +35,7 @@ public class Movement {
         Up, Right, Down, Left
     }
 
-    private static Directions getInitialDirectionToStartFrom() {
+    private Directions getInitialDirectionToStartFrom() {
         int randomInt = new Random().nextInt(0, 100);
         if (randomInt >= 0 && randomInt < 25) {
             return Directions.Up;
@@ -45,24 +47,24 @@ public class Movement {
         return Directions.Left;
     }
 
-    private static Directions getNextDirectionClockWise(Directions currDirection) {
+    private Directions getNextDirectionClockWise(Directions currDirection) {
         ArrayList<Directions> directionsArrayList = new ArrayList<>(Arrays.asList(Directions.values()));
         int currPosIndex = directionsArrayList.indexOf(currDirection);
         int nextPosIndex = currPosIndex + 1 >= directionsArrayList.size() ? 0 : currPosIndex + 1;
         return directionsArrayList.get(nextPosIndex);
     }
 
-    private static boolean canMoveThisDirection(Coords currCoords, Directions desirableDirection) {
+    private boolean canMoveThisDirection(Coords currCoords, Directions desirableDirection) {
         int currX = currCoords.getX();
         int currY = currCoords.getY();
 
-        if (desirableDirection == Directions.Up && currY != upBoundY) {
+        if (desirableDirection == Directions.Up && currY != getUpBoundY()) {
             return true;
-        } else if (desirableDirection == Directions.Right && currX != rightBoundX) {
+        } else if (desirableDirection == Directions.Right && currX != getRightBoundX()) {
             return true;
-        } else if (desirableDirection == Directions.Down && currY != downBoundY) {
+        } else if (desirableDirection == Directions.Down && currY != getDownBoundY()) {
             return true;
-        } else if (desirableDirection == Directions.Left && currX != leftBoundX) {
+        } else if (desirableDirection == Directions.Left && currX != getLeftBoundX()) {
             return true;
         } else return false;
     }
@@ -80,7 +82,7 @@ public class Movement {
         else return curr;
     }
 
-    public static Coords getNextCoords(Animal animal) {
+    public Coords getNextCoords(Animal animal) {
         Coords currCoords = animal.getCoords();
         Directions currDesirableDirection = getInitialDirectionToStartFrom();
         Directions resultDirection = null;
