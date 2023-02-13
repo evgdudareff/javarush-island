@@ -6,10 +6,11 @@ public abstract class SimulationItem {
     private double weight;
     private int maxItemsPerCell;
     private Board.Cell currentCell;
-    private static int id = 0;
+    private static int globalId = 0;
+    private int id = 0;
 
     public SimulationItem() {
-        id++;
+        id = globalId++;
     }
 
     abstract public String getImage();

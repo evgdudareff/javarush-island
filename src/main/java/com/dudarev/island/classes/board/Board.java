@@ -1,6 +1,7 @@
 package com.dudarev.island.classes.board;
 
 import com.dudarev.island.classes.base.SimulationItem;
+import com.dudarev.island.classes.utils.BoardInitializer;
 import com.dudarev.island.classes.utils.Coords;
 
 import java.util.ArrayList;
@@ -51,7 +52,9 @@ public class Board {
 
     public void moveSimulationItem(SimulationItem item, Coords moveToCoords) {
         Cell itemCurrCell = item.getCell();
-        itemCurrCell.removeSimulationItem(item);
+        if (itemCurrCell != null) {
+            itemCurrCell.removeSimulationItem(item);
+        }
 
         Cell targetCell = scheme.get(moveToCoords.getX()).get(moveToCoords.getY());
 

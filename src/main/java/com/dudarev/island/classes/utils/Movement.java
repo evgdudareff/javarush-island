@@ -1,6 +1,7 @@
 package com.dudarev.island.classes.utils;
 
 import com.dudarev.island.classes.base.Animal;
+import com.dudarev.island.classes.base.SimulationItem;
 import com.dudarev.island.classes.board.Board;
 
 import java.util.ArrayList;
@@ -109,5 +110,7 @@ public class Movement {
         return animal.getCell().getCoords();
     }
 
-
+    public void moveByCoords(SimulationItem item, Coords coords) {
+        board.moveSimulationItem(item, coords);
+    }
 }
