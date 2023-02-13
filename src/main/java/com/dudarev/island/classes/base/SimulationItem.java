@@ -1,24 +1,35 @@
 package com.dudarev.island.classes.base;
 
-import com.dudarev.island.classes.utils.Coords;
+import com.dudarev.island.classes.board.Board;
 
 public abstract class SimulationItem {
     private double weight;
     private int maxItemsPerCell;
-    private Coords coords;
+    private Board.Cell currentCell;
+    private static int id = 0;
+    private String image = "\uD83E\uDD16";
 
-    public void moveTo(int x, int y) {
+    public SimulationItem() {
+        id++;
+    }
 
+    public String getImage() {
+        return image;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public Board.Cell getCell() {
+        return currentCell;
+    }
+
+
+    public void linkToCell(Board.Cell cell) {
+        currentCell = cell;
     }
 
     public void reproduction() {
-    }
-
-    public void setCoords(int x, int y) {
-        this.coords = new Coords(x, y);
-    }
-
-    public Coords getCoords() {
-        return this.coords;
     }
 }

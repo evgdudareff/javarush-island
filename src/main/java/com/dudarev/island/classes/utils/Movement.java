@@ -10,7 +10,7 @@ import java.util.Random;
 public class Movement {
     Board board;
 
-    public Movement(Board simulationBoard){
+    public Movement(Board simulationBoard) {
         board = simulationBoard;
     }
 
@@ -69,7 +69,7 @@ public class Movement {
         } else return false;
     }
 
-    private static Coords getNewCoords(Coords curr, Directions direction) {
+    private static Coords getUpdatedCoords(Coords curr, Directions direction) {
         if (direction == Directions.Up) {
             return new Coords(curr.getX(), curr.getY() - 1);
         } else if (direction == Directions.Right) {
@@ -78,12 +78,11 @@ public class Movement {
             return new Coords(curr.getX(), curr.getY() + 1);
         } else if (direction == Directions.Left) {
             return new Coords(curr.getX() - 1, curr.getY());
-        }
-        else return curr;
+        } else return curr;
     }
 
-    public Coords getNextCoords(Animal animal) {
-        Coords currCoords = animal.getCoords();
+    private Coords getNextCoords(Animal animal) {
+        Coords currCoords = animal.getCell().getCoords();
         Directions currDesirableDirection = getInitialDirectionToStartFrom();
         Directions resultDirection = null;
 
@@ -100,7 +99,14 @@ public class Movement {
             return currCoords;
         }
 
-        return getNewCoords(currCoords, resultDirection);
+        return getUpdatedCoords(currCoords, resultDirection);
+    }
+
+    public Coords move(Animal animal) {
+        Coords animalNextCoords = getNextCoords(animal);
+        board.moveSimulationItem(animal, animalNextCoords);
+
+        return animal.getCell().getCoords();
     }
 
 
