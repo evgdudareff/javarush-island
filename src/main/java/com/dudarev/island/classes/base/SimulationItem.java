@@ -7,15 +7,12 @@ public abstract class SimulationItem {
     private int maxItemsPerCell;
     private Board.Cell currentCell;
     private static int id = 0;
-    private String image = "\uD83E\uDD16";
 
     public SimulationItem() {
         id++;
     }
 
-    public String getImage() {
-        return image;
-    }
+    abstract public String getImage();
 
     public int getId() {
         return id;
