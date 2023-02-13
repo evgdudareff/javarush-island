@@ -3,7 +3,7 @@ package com.dudarev.island.classes.tests;
 import com.dudarev.island.classes.board.Board;
 import com.dudarev.island.classes.predators.Wolf;
 import com.dudarev.island.classes.utils.Coords;
-import com.dudarev.island.classes.utils.Movement;
+import com.dudarev.island.classes.utils.MovementManager;
 
 
 import static com.dudarev.island.classes.tests.TestsCostants.ANSI_RED;
@@ -11,16 +11,16 @@ import static com.dudarev.island.classes.tests.TestsCostants.ANSI_RESET;
 
 public class MovementTests {
 
-    private Movement movement;
+    private MovementManager movementManager;
 
     private boolean areNewCoordsWrong(Coords newCoords) {
         int newX = newCoords.getX();
         int newY = newCoords.getY();
 
-        return newX < movement.getLeftBoundX() ||
-                newX > movement.getRightBoundX() ||
-                newY < movement.getUpBoundY() ||
-                newY > movement.getDownBoundY();
+        return newX < movementManager.getLeftBoundX() ||
+                newX > movementManager.getRightBoundX() ||
+                newY < movementManager.getUpBoundY() ||
+                newY > movementManager.getDownBoundY();
     }
 
     private String getExceptionMessage(String testName, int x, int y) {
@@ -38,16 +38,16 @@ public class MovementTests {
     }
 
     public void checkWolfCanMove1() throws Exception {
-        int leftBoundX = movement.getLeftBoundX();
-        int upBoundY = movement.getUpBoundY();
+        int leftBoundX = movementManager.getLeftBoundX();
+        int upBoundY = movementManager.getUpBoundY();
 
         printStartTestMessage("checkWolfCanMove1", leftBoundX, upBoundY);
 
         Wolf wolf = new Wolf();
         wolf.linkToCell(new Board.Cell(leftBoundX, upBoundY));
-        movement.move(wolf);
+        movementManager.move(wolf);
         Coords startCoords = wolf.getCell().getCoords();
-        Coords newCoords = movement.move(wolf);
+        Coords newCoords = movementManager.move(wolf);
 
         if (areNewCoordsWrong(newCoords)) {
             throw new Exception(getExceptionMessage("checkWolfCanMove1", leftBoundX, upBoundY));
@@ -57,16 +57,16 @@ public class MovementTests {
     }
 
     public void checkWolfCanMove2() throws Exception {
-        int rightBoundX = movement.getRightBoundX();
-        int upBoundY = movement.getUpBoundY();
+        int rightBoundX = movementManager.getRightBoundX();
+        int upBoundY = movementManager.getUpBoundY();
 
         printStartTestMessage("checkWolfCanMove2", rightBoundX, upBoundY);
 
         Wolf wolf = new Wolf();
         wolf.linkToCell(new Board.Cell(rightBoundX, upBoundY));
-        movement.move(wolf);
+        movementManager.move(wolf);
         Coords startCoords = wolf.getCell().getCoords();
-        Coords newCoords = movement.move(wolf);
+        Coords newCoords = movementManager.move(wolf);
 
         if (areNewCoordsWrong(newCoords)) {
             throw new Exception(getExceptionMessage("checkWolfCanMove2", rightBoundX, upBoundY));
@@ -76,16 +76,16 @@ public class MovementTests {
     }
 
     public void checkWolfCanMove3() throws Exception {
-        int rightBoundX = movement.getRightBoundX();
-        int downBoundY = movement.getDownBoundY();
+        int rightBoundX = movementManager.getRightBoundX();
+        int downBoundY = movementManager.getDownBoundY();
 
         printStartTestMessage("checkWolfCanMove3", rightBoundX, downBoundY);
 
         Wolf wolf = new Wolf();
         wolf.linkToCell(new Board.Cell(rightBoundX, downBoundY));
-        movement.move(wolf);
+        movementManager.move(wolf);
         Coords startCoords = wolf.getCell().getCoords();
-        Coords newCoords = movement.move(wolf);
+        Coords newCoords = movementManager.move(wolf);
 
         if (areNewCoordsWrong(newCoords)) {
             throw new Exception(getExceptionMessage("checkWolfCanMove3", rightBoundX, downBoundY));
@@ -95,16 +95,16 @@ public class MovementTests {
     }
 
     public void checkWolfCanMove4() throws Exception {
-        int leftBoundX = movement.getLeftBoundX();
-        int downBoundY = movement.getDownBoundY();
+        int leftBoundX = movementManager.getLeftBoundX();
+        int downBoundY = movementManager.getDownBoundY();
 
         printStartTestMessage("checkWolfCanMove4", leftBoundX, downBoundY);
 
         Wolf wolf = new Wolf();
         wolf.linkToCell(new Board.Cell(leftBoundX, downBoundY));
-        movement.move(wolf);
+        movementManager.move(wolf);
         Coords startCoords = wolf.getCell().getCoords();
-        Coords newCoords = movement.move(wolf);
+        Coords newCoords = movementManager.move(wolf);
 
         if (areNewCoordsWrong(newCoords)) {
             throw new Exception(getExceptionMessage("checkWolfCanMove4", leftBoundX, downBoundY));
@@ -115,21 +115,21 @@ public class MovementTests {
 
     public void checkWolfMoveFromCellToCell() {
         Board board = new Board(3, 3);
-        Movement movement = new Movement(board);
+        MovementManager movementManager = new MovementManager(board);
         Wolf wolf = new Wolf();
 
         wolf.linkToCell(new Board.Cell(0, 0));
 
         for (int i = 0; i < 10; i++) {
             board.printScheme();
-            movement.move(wolf);
+            movementManager.move(wolf);
             System.out.println("-----------------------------------");
 
         }
     }
 
     public void runTests() {
-        movement = new Movement(new Board(3, 3));
+        movementManager = new MovementManager(new Board(3, 3));
 
         try {
             checkWolfCanMove1();

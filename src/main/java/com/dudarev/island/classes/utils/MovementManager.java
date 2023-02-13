@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-public class Movement {
+public class MovementManager {
     Board board;
 
-    public Movement(Board simulationBoard) {
+    public MovementManager(Board simulationBoard) {
         board = simulationBoard;
     }
 

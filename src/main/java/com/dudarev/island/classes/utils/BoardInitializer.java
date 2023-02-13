@@ -16,8 +16,8 @@ public class BoardInitializer {
                     new Sheep())
     );
 
-    public void initBoard(Movement movementUtils) {
-        Board board = movementUtils.board;
+    public void initBoard(MovementManager movementManagerUtils) {
+        Board board = movementManagerUtils.board;
 
         Random random = new Random();
         simulationItemsToCreate.forEach(item -> {
@@ -26,7 +26,7 @@ public class BoardInitializer {
                     random.nextInt(0, board.getDownBoundY())
             );
 
-            movementUtils.moveByCoords(item, coords);
+            movementManagerUtils.moveByCoords(item, coords);
         });
     }
 }
