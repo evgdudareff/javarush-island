@@ -9,10 +9,15 @@ public class App {
     public static void main(String[] args) {
         System.out.println("Hello App");
 
-        Board board = new Board(3, 3);
+        Board board = new Board(5, 5);
         MovementManager movementManager = new MovementManager(board);
         BoardInitializer boardInitializer = new BoardInitializer();
-        boardInitializer.initBoard(movementManager);
+        try {
+            boardInitializer.initBoard(movementManager);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
         board.printScheme();
     }
 }
