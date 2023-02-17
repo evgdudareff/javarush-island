@@ -44,7 +44,7 @@ public class MovementTests {
         printStartTestMessage("checkWolfCanMove1", leftBoundX, upBoundY);
 
         Wolf wolf = new Wolf();
-        wolf.linkToCell(new Board.Cell(leftBoundX, upBoundY));
+        wolf.setCell(new Board.Cell(leftBoundX, upBoundY));
         movementManager.move(wolf);
         Coords startCoords = wolf.getCell().getCoords();
         Coords newCoords = movementManager.move(wolf);
@@ -63,7 +63,7 @@ public class MovementTests {
         printStartTestMessage("checkWolfCanMove2", rightBoundX, upBoundY);
 
         Wolf wolf = new Wolf();
-        wolf.linkToCell(new Board.Cell(rightBoundX, upBoundY));
+        wolf.setCell(new Board.Cell(rightBoundX, upBoundY));
         movementManager.move(wolf);
         Coords startCoords = wolf.getCell().getCoords();
         Coords newCoords = movementManager.move(wolf);
@@ -82,7 +82,7 @@ public class MovementTests {
         printStartTestMessage("checkWolfCanMove3", rightBoundX, downBoundY);
 
         Wolf wolf = new Wolf();
-        wolf.linkToCell(new Board.Cell(rightBoundX, downBoundY));
+        wolf.setCell(new Board.Cell(rightBoundX, downBoundY));
         movementManager.move(wolf);
         Coords startCoords = wolf.getCell().getCoords();
         Coords newCoords = movementManager.move(wolf);
@@ -101,7 +101,7 @@ public class MovementTests {
         printStartTestMessage("checkWolfCanMove4", leftBoundX, downBoundY);
 
         Wolf wolf = new Wolf();
-        wolf.linkToCell(new Board.Cell(leftBoundX, downBoundY));
+        wolf.setCell(new Board.Cell(leftBoundX, downBoundY));
         movementManager.move(wolf);
         Coords startCoords = wolf.getCell().getCoords();
         Coords newCoords = movementManager.move(wolf);
@@ -115,10 +115,11 @@ public class MovementTests {
 
     public void checkWolfMoveFromCellToCell() {
         Board board = new Board(3, 3);
-        MovementManager movementManager = new MovementManager(board);
+        MovementManager movementManager = new MovementManager();
+        movementManager.linkWithBoard(board);
         Wolf wolf = new Wolf();
 
-        wolf.linkToCell(new Board.Cell(0, 0));
+        wolf.setCell(new Board.Cell(0, 0));
 
         for (int i = 0; i < 10; i++) {
             board.printScheme();
@@ -129,7 +130,9 @@ public class MovementTests {
     }
 
     public void runTests() {
-        movementManager = new MovementManager(new Board(3, 3));
+        Board board = new Board(3, 3);
+        MovementManager movementManager = new MovementManager();
+        movementManager.linkWithBoard(board);
 
         try {
             checkWolfCanMove1();

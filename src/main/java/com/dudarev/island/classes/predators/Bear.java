@@ -19,6 +19,7 @@ public class Bear extends Predator {
         return maxItemsPerCell;
     }
 
+    @Override
     public String getImage() {
         return image;
     }

@@ -19,6 +19,7 @@ public class Boar extends Herbivore {
         return maxItemsPerCell;
     }
 
+    @Override
     public String getImage() {
         return image;
     }

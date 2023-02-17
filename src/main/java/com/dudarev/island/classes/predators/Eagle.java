@@ -19,6 +19,7 @@ public class Eagle extends Predator {
         return maxItemsPerCell;
     }
 
+    @Override
     public String getImage() {
         return image;
     }

@@ -19,6 +19,7 @@ public class Wolf extends Predator {
         return maxItemsPerCell;
     }
 
+    @Override
     public String getImage() {
         return image;
     }

@@ -1,15 +1,13 @@
 package com.dudarev.island.classes.base;
 
 import com.dudarev.island.classes.board.Board;
+import com.dudarev.island.classes.utils.SimulationItemsFactory;
 
 public abstract class SimulationItem {
     private Board.Cell currentCell;
     private static int globalId = 0;
-    private int id = 0;
-
-    public SimulationItem() {
-        id = globalId++;
-    }
+    private int id;
+    public static SimulationItemsFactory factory = new SimulationItemsFactory();
 
     abstract public String getImage();
 
@@ -21,15 +19,24 @@ public abstract class SimulationItem {
         return id;
     }
 
+    public SimulationItem() {
+        id = globalId++;
+    }
+
     public Board.Cell getCell() {
         return currentCell;
     }
 
-
-    public void linkToCell(Board.Cell cell) {
+    public void setCell(Board.Cell cell) {
         currentCell = cell;
     }
 
-    public void reproduction() {
+    public void die() {
+        Board.Cell currCell = this.getCell();
+        currCell.removeSimulationItem(this);
+    }
+
+    public boolean isAlive() {
+        return this.getCell() != null;
     }
 }

@@ -19,6 +19,7 @@ public class Buffalo extends Herbivore {
         return maxItemsPerCell;
     }
 
+    @Override
     public String getImage() {
         return image;
     }

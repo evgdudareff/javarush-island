@@ -19,6 +19,7 @@ public class Caterpillar extends Herbivore {
         return maxItemsPerCell;
     }
 
+    @Override
     public String getImage() {
         return image;
     }

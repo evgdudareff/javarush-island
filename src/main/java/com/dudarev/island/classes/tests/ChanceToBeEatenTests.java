@@ -4,7 +4,7 @@ import com.dudarev.island.classes.herbivores.Horse;
 import com.dudarev.island.classes.herbivores.Mouse;
 import com.dudarev.island.classes.predators.Bear;
 import com.dudarev.island.classes.predators.Wolf;
-import com.dudarev.island.classes.utils.ChanceToBeEaten;
+import com.dudarev.island.classes.utils.EatingManager;
 
 import java.util.ArrayList;
 
@@ -12,7 +12,7 @@ import static com.dudarev.island.classes.tests.TestsCostants.ANSI_RED;
 import static com.dudarev.island.classes.tests.TestsCostants.ANSI_RESET;
 
 public class ChanceToBeEatenTests {
-    ChanceToBeEaten chanceToBeEaten = new ChanceToBeEaten();
+    EatingManager eatingManager = new EatingManager();
 
     public  void checkThatWolfEatsHorseAtLeastOneTime() throws Exception {
         System.out.println("checkThatWolfEatsHorseAtLeastOneTime starts 1000 iterations");
@@ -21,7 +21,7 @@ public class ChanceToBeEatenTests {
         int failure = 0;
 
         for (int i = 0; i < 1000; i++) {
-            if (chanceToBeEaten.isAttackerEatsVictim(new Wolf(), new Horse())) {
+            if (eatingManager.isAttackerEatsVictim(new Wolf(), new Horse())) {
                 success++;
             } else {
                 failure++;
@@ -47,7 +47,7 @@ public class ChanceToBeEatenTests {
         int failure = 0;
 
         for (int i = 0; i < 1000; i++) {
-            if (chanceToBeEaten.isAttackerEatsVictim(new Wolf(), new Mouse())) {
+            if (eatingManager.isAttackerEatsVictim(new Wolf(), new Mouse())) {
                 success++;
             } else {
                 failure++;
@@ -73,7 +73,7 @@ public class ChanceToBeEatenTests {
         int failure = 0;
 
         for (int i = 0; i < 1000; i++) {
-            if (chanceToBeEaten.isAttackerEatsVictim(new Wolf(), new Wolf())) {
+            if (eatingManager.isAttackerEatsVictim(new Wolf(), new Wolf())) {
                 success++;
             } else {
                 failure++;
@@ -98,7 +98,7 @@ public class ChanceToBeEatenTests {
         int failure = 0;
 
         for (int i = 0; i < 1000; i++) {
-            if (chanceToBeEaten.isAttackerEatsVictim(new Wolf(), new Bear())) {
+            if (eatingManager.isAttackerEatsVictim(new Wolf(), new Bear())) {
                 success++;
             } else {
                 failure++;
@@ -120,7 +120,7 @@ public class ChanceToBeEatenTests {
     public void checkThatWolfHasVictims() throws Exception {
         System.out.println("checkThatWolfHasVictims starts iterations");
 
-        ArrayList<String> wolfsVictimsClassNames = chanceToBeEaten.getVictimClassNamesByAttackerName(Wolf.class.getName());
+        ArrayList<String> wolfsVictimsClassNames = eatingManager.getVictimClassNamesByAttackerName(Wolf.class.getName());
 
 
         if (wolfsVictimsClassNames.size() == 0) {

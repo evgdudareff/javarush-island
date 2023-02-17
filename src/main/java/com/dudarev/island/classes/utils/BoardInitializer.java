@@ -1,34 +1,36 @@
 package com.dudarev.island.classes.utils;
 
-import com.dudarev.island.classes.base.Animal;
-import com.dudarev.island.classes.base.Plant;
-import com.dudarev.island.classes.base.SimulationItem;
-import com.dudarev.island.classes.base.SimulationItemsFactory;
+import com.dudarev.island.classes.base.*;
 import com.dudarev.island.classes.board.Board;
+import com.dudarev.island.classes.plants.Grass;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
 public class BoardInitializer {
-    private ArrayList<SimulationItem> simulationItems = new ArrayList<>();
+    private final ArrayList<SimulationItem> simulationItems = new ArrayList<>();
 
-    private int getRandomCountOfItemsToCreate(SimulationItem simulationItem, Random random) {
+    public int getRandomCountOfItemsToCreate(SimulationItem simulationItem, Random random) {
         int maxItemsPerCell = simulationItem.getMaxItemsPerCell();
-        int maxBoundItemsToCreate;
 
-        if (maxItemsPerCell < 10) {
-            maxBoundItemsToCreate = maxItemsPerCell;
-        } else if (maxItemsPerCell >= 10 && maxItemsPerCell < 50) {
-            maxBoundItemsToCreate = maxItemsPerCell / 5;
-        } else {
-            maxBoundItemsToCreate = maxItemsPerCell / 10;
+        if (simulationItem instanceof Grass) {
+            return random.nextInt(maxItemsPerCell, maxItemsPerCell * 5);
         }
 
-        return random.nextInt(1, maxBoundItemsToCreate);
+        if (simulationItem instanceof Predator) {
+            return maxItemsPerCell * 500;
+
+        }
+
+        if (simulationItem instanceof Herbivore) {
+            return maxItemsPerCell / 10;
+        }
+        return maxItemsPerCell;
     }
 
-    private void randomlyShuffleItemsOnBoard(MovementManager movementManagerUtils, Random random) {
+    public void randomlyShuffleItemsOnBoard(MovementManager movementManagerUtils) {
+        Random random = new Random();
         Board board = movementManagerUtils.board;
 
         simulationItems.forEach(item -> {
@@ -42,7 +44,7 @@ public class BoardInitializer {
     }
 
 
-    public boolean initBoard(MovementManager movementManagerUtils) {
+    public boolean init(MovementManager movementManagerUtils) {
         SimulationClassesLoader simulationClassesLoader = new SimulationClassesLoader();
         SimulationItemsFactory simulationItemsFactory = new SimulationItemsFactory();
         Random random = new Random();
@@ -68,7 +70,7 @@ public class BoardInitializer {
             return false;
         }
 
-        randomlyShuffleItemsOnBoard(movementManagerUtils, random);
+        randomlyShuffleItemsOnBoard(movementManagerUtils);
 
         return true;
     }

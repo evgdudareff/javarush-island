@@ -19,6 +19,7 @@ public class Duck extends Herbivore {
         return maxItemsPerCell;
     }
 
+    @Override
     public String getImage() {
         return image;
     }

@@ -1,4 +1,7 @@
-package com.dudarev.island.classes.base;
+package com.dudarev.island.classes.utils;
+
+import com.dudarev.island.classes.base.Animal;
+import com.dudarev.island.classes.base.Plant;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;

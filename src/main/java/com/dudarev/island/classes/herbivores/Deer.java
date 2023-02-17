@@ -19,6 +19,7 @@ public class Deer extends Herbivore {
         return maxItemsPerCell;
     }
 
+    @Override
     public String getImage() {
         return image;
     }

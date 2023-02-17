@@ -7,6 +7,7 @@ public class Grass extends Plant {
     private final double weight = 1;
     private final int maxItemsPerCell = 200;
 
+    @Override
     public String getImage() {
         return image;
     }
