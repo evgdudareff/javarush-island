@@ -26,8 +26,12 @@ public class EatingManager {
 
         int randomChanceToEatVictim = new Random().nextInt(0, 101);
         int configurationChanceToEatVictim = attackersPossibleVictimsMap.get(victimClassName);
+        int resultChanceToEatVictim = randomChanceToEatVictim + configurationChanceToEatVictim;
+        int randomChanceNotToBeEatenByAttacker = new Random().nextInt(0, 101);
+        int resultChanceNotToBeEatenByAttacker = randomChanceNotToBeEatenByAttacker + (100 - configurationChanceToEatVictim);
 
-        return randomChanceToEatVictim <= configurationChanceToEatVictim;
+
+        return resultChanceToEatVictim >= resultChanceNotToBeEatenByAttacker;
     }
 
     public ArrayList<String> getVictimClassNamesByAttackerName(String attackerClassName) {

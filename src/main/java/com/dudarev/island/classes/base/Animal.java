@@ -12,6 +12,10 @@ public abstract class Animal extends SimulationItem {
     private int currMovesByTick = 0;
     private double currSaturationAmountByTick = 0;
 
+    abstract public int getHowMuchTickCouldLiveWithoutSaturation();
+
+    abstract public void decrementHowMuchTickCouldLiveWithoutSaturation();
+
     abstract public int getCellMovesPerCycle();
 
     abstract public double getSaturationAmount();
@@ -37,7 +41,7 @@ public abstract class Animal extends SimulationItem {
     }
 
     public boolean eat() {
-        boolean saturation = true;
+        boolean saturation = false;
         EatingManager eatingManager = new EatingManager();
         Board.Cell currCell = this.getCell();
         ArrayList<SimulationItem> allItemsOnCell = currCell.getCurrentSimulationItems();
@@ -51,10 +55,13 @@ public abstract class Animal extends SimulationItem {
 
         for (int i = 0; i < victims.size(); i++) {
             SimulationItem victim = victims.get(i);
+            if (!victim.isAlive()) {
+                continue;
+            }
             double victimWeight = victim.getWeight();
             double currSaturationAmount = this.getCurrSaturationAmountByTick();
-            if (currSaturationAmount >= this.getSaturationAmount()) {
-                break;
+            if (currSaturationAmount != 0 && currSaturationAmount >= this.getSaturationAmount()) {
+                return true;
             }
 
             if (eatingManager.isAttackerEatsVictim(this, victim)) {
@@ -63,9 +70,6 @@ public abstract class Animal extends SimulationItem {
             }
         }
 
-        if (this.getCurrSaturationAmountByTick() < this.getSaturationAmount()) {
-            saturation = false;
-        }
 
         return saturation;
     }
@@ -81,6 +85,7 @@ public abstract class Animal extends SimulationItem {
         return true;
     }
 
+
     public Animal reproduce() {
         try {
             return factory.createAnimalByType(this.getClass());
@@ -90,7 +95,7 @@ public abstract class Animal extends SimulationItem {
 
     }
 
-    public void resetMovesAndSaturation(){
+    public void resetMovesAndSaturation() {
         setCurrMovesByTick(0);
         setCurrSaturationAmountByTick(0);
     }

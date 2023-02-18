@@ -1,6 +1,7 @@
 package com.dudarev.island.classes.base;
 
 import com.dudarev.island.classes.board.Board;
+import com.dudarev.island.classes.utils.Coords;
 import com.dudarev.island.classes.utils.SimulationItemsFactory;
 
 public abstract class SimulationItem {
@@ -8,6 +9,8 @@ public abstract class SimulationItem {
     private static int globalId = 0;
     private int id;
     public static SimulationItemsFactory factory = new SimulationItemsFactory();
+    public boolean died = false;
+    public Coords coords;
 
     abstract public String getImage();
 

@@ -3,6 +3,7 @@ package com.dudarev.island.classes.utils;
 import com.dudarev.island.classes.base.Animal;
 import com.dudarev.island.classes.base.Plant;
 import com.dudarev.island.classes.board.Board;
+import com.dudarev.island.classes.plants.Grass;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -47,32 +48,37 @@ public class LiveSimulator {
 
         for (Animal animal : initialAnimals) {
             boolean canMove = true;
-            boolean saturationReahed = false;
+            boolean saturationReached = false;
 
-            if (animal != null && !animal.isAlive()) {
+            if (!animal.isAlive()) {
                 continue;
             }
 
             do {
-                if (animal != null) {
-                    canMove = animal.move(movementManager);
-                    saturationReahed = animal.eat();
-                }
-            }
-            while (canMove && !saturationReahed);
+                canMove = animal.move(movementManager);
+                saturationReached = animal.eat();
 
-            if (!canMove && !saturationReahed) {
+            }
+            while (canMove && !saturationReached);
+
+            if (!canMove && !saturationReached) {
+                if (animal.getHowMuchTickCouldLiveWithoutSaturation() > 0) {
+                    animal.decrementHowMuchTickCouldLiveWithoutSaturation();
+                    continue;
+                }
                 animal.die();
                 continue;
             }
 
-            if (saturationReahed) {
+            if (saturationReached) {
                 animal.resetMovesAndSaturation();
+                boolean hasSimilarAnimal = animal.getCell().hasSimilarAnimal(animal);
+                boolean limitIsNotReached = animal.getMaxItemsPerCell() > animal.getCell().getSimilarAnimalCount(animal);
 
-                if (animal.getCell().hasSimilarAnimal(animal)) {
+                if (hasSimilarAnimal && limitIsNotReached) {
                     Animal newAnimal = animal.reproduce();
                     if (newAnimal != null) {
-                        newlyBornAnimals.add(animal);
+                        newlyBornAnimals.add(newAnimal);
                         movementManager.moveByCoords(newAnimal, animal.getCell().getCoords());
                     }
                 }
@@ -93,7 +99,12 @@ public class LiveSimulator {
 
     public ArrayList<Plant> startPlantsGrowOneTick(ArrayList<Plant> initialPlants) {
         ArrayList<Plant> newlyGrowPlants = new ArrayList<>();
-        Plant plant = initialPlants.stream().findFirst().get();
+        ArrayList<Plant> survivedPlants = (ArrayList<Plant>) initialPlants
+                .stream()
+                .filter(Plant::isAlive)
+                .collect(Collectors.toList());
+
+        Plant plant = new Grass();
         Class plantClazz = plant.getClass();
         Random random = new Random();
 
@@ -104,12 +115,9 @@ public class LiveSimulator {
             System.out.println("Could not grow plants");
         }
 
-        boardInitializer.randomlyShuffleItemsOnBoard(movementManager);
 
-        ArrayList<Plant> survivedPlants = (ArrayList<Plant>) initialPlants
-                .stream()
-                .filter(Plant::isAlive)
-                .collect(Collectors.toList());
+        boardInitializer.randomlyShuffleItemsOnBoard(movementManager, newlyGrowPlants);
+
 
         survivedPlants.addAll(newlyGrowPlants);
         return survivedPlants;

@@ -1,16 +1,12 @@
 package com.dudarev.island.classes.utils;
 
 import com.dudarev.island.classes.base.Animal;
-import com.dudarev.island.classes.base.Herbivore;
-import com.dudarev.island.classes.base.Predator;
 import com.dudarev.island.classes.base.SimulationItem;
 import com.dudarev.island.classes.board.Board;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 public class MovementManager {
     Board board;
@@ -109,118 +105,9 @@ public class MovementManager {
         return getShiftedByDirectionCoords(currCoords, resultDirection);
     }
 
-    public Coords move(Animal animal) {
+    public void move(Animal animal) {
         Coords animalNextCoords = getNextCoords(animal);
         board.moveSimulationItem(animal, animalNextCoords);
-
-        return animal.getCell().getCoords();
-    }
-
-    public void startLiveOneTickPredators(ArrayList<SimulationItem> predators) {
-
-        int predatorsSize = predators.size();
-        ArrayList<SimulationItem> newBornPredators = new ArrayList<>();
-        ArrayList<Integer> diedPredatorsId = new ArrayList<>();
-        ArrayList<Integer> alivePredatorsId = new ArrayList<>();
-
-        for (int k = 0; k < predatorsSize; k++) {
-            Animal item = (Animal) predators.get(k);
-            if (item != null && !item.isAlive()) {
-                continue;
-            }
-            boolean canMove = true;
-            boolean saturation = false;
-            do {
-                canMove = item.move(this);
-                saturation = item.eat();
-            }
-            while (canMove && !saturation);
-
-            if (!canMove && !saturation) {
-                item.die();
-                continue;
-            }
-            if (saturation) {
-                alivePredatorsId.add(item.getId());
-                item.setCurrMovesByTick(0);
-                item.setCurrSaturationAmountByTick(0);
-                if (item.getCell().hasSimilarAnimal(item)) {
-                    Animal newAnimal = item.reproduce();
-                    if (newAnimal != null) {
-                        moveByCoords(newAnimal, item.getCell().getCoords());
-                        newBornPredators.add(newAnimal);
-                    }
-                }
-
-            }
-
-        }
-
-
-        diedPredatorsId = (ArrayList<Integer>) predators.stream().filter(item -> !item.isAlive()).map(item -> item.getId()).collect(Collectors.toList());
-
-//        System.out.println("born:" + newBornPredators.size());
-//        System.out.println("died:" + diedPredatorsId.size());
-        diedPredatorsId = (ArrayList<Integer>) diedPredatorsId.stream().sorted().collect(Collectors.toList());
-        alivePredatorsId = (ArrayList<Integer>) alivePredatorsId.stream().sorted().collect(Collectors.toList());
-//        System.out.println(diedPredatorsId);
-//        System.out.println(alivePredatorsId);
-//        System.out.println("");
-        predators.addAll(newBornPredators);
-
-    }
-
-    public void startLiveOneTickHerbivores(ArrayList<SimulationItem> herbivores) {
-
-        int herbivoresSize = herbivores.size();
-        ArrayList<SimulationItem> newBornPredators = new ArrayList<>();
-        ArrayList<Integer> diedHerbivoresId = new ArrayList<>();
-        ArrayList<Integer> aliveHerbivoresId = new ArrayList<>();
-
-        for (int k = 0; k < herbivoresSize; k++) {
-            Animal item = (Animal) herbivores.get(k);
-            if (item != null && !item.isAlive()) {
-                continue;
-            }
-            boolean canMove = true;
-            boolean saturation = false;
-            do {
-                canMove = item.move(this);
-                saturation = item.eat();
-            }
-            while (canMove && !saturation);
-
-            if (!canMove && !saturation) {
-                item.die();
-                continue;
-            }
-            if (saturation) {
-                aliveHerbivoresId.add(item.getId());
-                item.setCurrMovesByTick(0);
-                item.setCurrSaturationAmountByTick(0);
-                if (item.getCell().hasSimilarAnimal(item)) {
-                    Animal newAnimal = item.reproduce();
-                    if (newAnimal != null) {
-                        moveByCoords(newAnimal, item.getCell().getCoords());
-                        newBornPredators.add(newAnimal);
-                    }
-                }
-
-            }
-
-        }
-
-
-        diedHerbivoresId = (ArrayList<Integer>) herbivores.stream().filter(item -> !item.isAlive()).map(item -> item.getId()).collect(Collectors.toList());
-
-//        System.out.println("born:" + newBornPredators.size());
-//        System.out.println("died:" + diedHerbivoresId.size());
-        diedHerbivoresId = (ArrayList<Integer>) diedHerbivoresId.stream().sorted().collect(Collectors.toList());
-        aliveHerbivoresId = (ArrayList<Integer>) aliveHerbivoresId.stream().sorted().collect(Collectors.toList());
-
-//        System.out.println("");
-        herbivores.addAll(newBornPredators);
-
     }
 
     public void moveByCoords(SimulationItem item, Coords coords) {

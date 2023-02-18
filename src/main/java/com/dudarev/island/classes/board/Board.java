@@ -4,6 +4,7 @@ import com.dudarev.island.classes.base.*;
 import com.dudarev.island.classes.utils.Coords;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,6 +59,7 @@ public class Board {
         Cell itemCurrCell = item.getCell();
         if (itemCurrCell != null) {
             itemCurrCell.removeSimulationItem(item);
+
         }
 
         Cell targetCell = scheme.get(moveToCoords.getX()).get(moveToCoords.getY());
@@ -65,6 +67,28 @@ public class Board {
 
         targetCell.addSimulationItem(item);
     }
+
+    public HashMap<String, ArrayList<? extends SimulationItem>> getAllAliveItemsMap() {
+        ArrayList<Animal> alivePredators = new ArrayList<>();
+        ArrayList<Animal> aliveHerbivores = new ArrayList<>();
+        ArrayList<Plant> alivePlants = new ArrayList<>();
+        HashMap<String, ArrayList<? extends SimulationItem>> map = new HashMap<>() {{
+            put("predators", alivePredators);
+            put("herbivores", aliveHerbivores);
+            put("plants", alivePlants);
+        }};
+
+        for (int i = 0; i <= getRightBoundX(); i++) {
+            for (int j = 0; j <= getDownBoundY(); j++) {
+                Board.Cell cell = getScheme().get(i).get(j);
+                alivePredators.addAll(cell.getAllAlivePredators());
+                aliveHerbivores.addAll(cell.getAllAliveHerbivores());
+                alivePlants.addAll(cell.getAllAlivePlants());
+            }
+        }
+        return map;
+    }
+
 
     public Cell getCellByCoords(Coords coords) {
         return scheme.get(coords.getX()).get(coords.getY());
@@ -93,9 +117,6 @@ public class Board {
         }
 
         public void removeSimulationItem(SimulationItem item) {
-            if (item == null) {
-                return;
-            }
             ArrayList<Integer> simulationItemsIds = (ArrayList<Integer>) this.simulationItems.stream()
                     .map(SimulationItem::getId)
                     .collect(Collectors.toList());
@@ -118,6 +139,15 @@ public class Board {
             return predators;
         }
 
+        public ArrayList<Animal> getAllAlivePredators() {
+            ArrayList<Animal> predators = getAllPredators();
+            return (ArrayList<Animal>) predators
+                    .stream()
+                    .filter(Animal::isAlive)
+                    .collect(Collectors.toList());
+        }
+
+
         public ArrayList<Animal> getAllHerbivores() {
             ArrayList<Animal> herbivores = new ArrayList<>();
             for (var item : this.getCurrentSimulationItems()) {
@@ -128,6 +158,14 @@ public class Board {
             return herbivores;
         }
 
+        public ArrayList<Animal> getAllAliveHerbivores() {
+            ArrayList<Animal> herbivores = getAllHerbivores();
+            return (ArrayList<Animal>) herbivores
+                    .stream()
+                    .filter(Animal::isAlive)
+                    .collect(Collectors.toList());
+        }
+
         public ArrayList<Plant> getAllPlants() {
             ArrayList<Plant> plants = new ArrayList<>();
             for (var item : this.getCurrentSimulationItems()) {
@@ -136,6 +174,14 @@ public class Board {
                 }
             }
             return plants;
+        }
+
+        public ArrayList<Plant> getAllAlivePlants() {
+            ArrayList<Plant> plants = getAllPlants();
+            return (ArrayList<Plant>) plants
+                    .stream()
+                    .filter(Plant::isAlive)
+                    .collect(Collectors.toList());
         }
 
         public boolean hasSimilarAnimal(Animal animal) {
